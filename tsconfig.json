@@ -5,6 +5,12 @@
     "lib": [
       "es2018"
     ],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+    },
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,

@@ -20,7 +20,6 @@ export class HelloCdkStack extends cdk.Stack {
 export class CdkLessonStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
-    
 
     // ポリシーステートメントの定義
     const policyStatement = new PolicyStatement({
