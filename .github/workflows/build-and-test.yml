@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
+env: 
+  AWS_REGION: ap-northeast-1
+
 jobs:
   test:
     name: Test stack
@@ -13,8 +16,15 @@ jobs:
     steps:
       - name: 🔧 Checkout branch
         uses: actions/checkout@v2
-      - name: 📦 Install dependencies
-        run: npm i
+      - name: 📦 Setup dependencies
+        run: npm ci
+      - name: 🔧 Build
+        run: npm run build
       - name: 🔫 Jest
         run: npm run test
-      
+      - name: CDK Diff Check
+        run: npm run cdk:diff
+        env:
+          AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
