@@ -20,7 +20,7 @@ jobs:
         run: npm run build
       - name: 🔫 Jest
         run: npm run test
-      - name: CDK Diff Check
+      - name: 🧑‍🏭 Cdk Diff Check
         id: cdk_diff
         env:
           AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
@@ -29,14 +29,6 @@ jobs:
         run: |
           npm run cdk:diff --ci  &> diff.txt
           less diff.txt
-      - name: Create comment
-        if: steps.fc.outputs.comment-id == ''
-        uses: peter-evans/create-or-update-comment@v1
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            This comment was written by a bot!
-          reactions: rocket
       - id: get-comment-body
         run: |
           body="$(cat diff.txt)"
@@ -50,6 +42,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: | 
+            ## 🍰  cdk diff 🍰 
             ```bash
             ${{ steps.get-comment-body.outputs.body }}
             ```
