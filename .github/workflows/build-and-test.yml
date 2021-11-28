@@ -35,4 +35,4 @@ jobs:
       - name: Echo Stdouts
         run: echo "${{ steps.cdk_diff.outputs.std_out }}"
       - name: Echo other
-        run: echo "{{jobs.cdk_diff.outputs}}""
+        run: echo "{{jobs.cdk_diff.outputs}}"
