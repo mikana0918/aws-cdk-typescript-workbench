@@ -28,7 +28,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           npm run cdk:diff --ci  &> diff.txt
-          # less diff.txt
+          less diff.txt
       # read from file and assign to outputs object
       # - name: Read and assign
       #   id: output_test
@@ -49,16 +49,18 @@ jobs:
           body: |
             This comment was written by a bot!
           reactions: rocket
+      # 生成したtxtをパース
+      - id: get-comment-body
+        run: |
+          body="$(cat comment-body.txt)"
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}" 
+          echo "::set-output name=body::$body"
       - name: Create comment
         if: steps.fc.outputs.comment-id == ''
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            input_file="diff.txt"
-            while read line
-            do
-              file_text=$line
-            done < "$input_file"
-            echo ::set-output name=new_value::$file_text
+          body: ${{ steps.get-comment-body.outputs.body }}
           reactions: rocket
