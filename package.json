@@ -10,6 +10,7 @@
     "test": "jest",
     "cdk": "cdk",
     "cdk:diff": "cdk diff || true",
+    "cdk:diff --ci": "cdk diff --no-color || true",
     "cdk:deploy": "cdk deploy --require-approval never --all",
     "cdk:destroy": "cdk destroy --force --all"
   },
