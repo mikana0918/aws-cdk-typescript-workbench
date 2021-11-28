@@ -29,3 +29,19 @@ jobs:
         run: |
           diff_out=$(npm run cdk:diff --ci  &> diff.txt)
           less diff.txt
+      - name: Create comment
+        if: steps.fc.outputs.comment-id == ''
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            This comment was written by a bot!
+          reactions: rocket
+      - name: Create comment
+        if: steps.fc.outputs.comment-id == ''
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            less diff.txt
+          reactions: rocket
