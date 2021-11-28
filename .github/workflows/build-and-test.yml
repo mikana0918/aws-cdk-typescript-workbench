@@ -21,8 +21,13 @@ jobs:
       - name: 🔫 Jest
         run: npm run test
       - name: CDK Diff Check
-        run: npm run cdk:diff
+        id: cdk_diff
         env:
           AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          echo "::set-output name=cdk-diff::$(npm run cdk:diff)\n"
+      - name: Echo Stdouts
+        run: |
+          echo ${{join(steps.cdk_diff.outputs.*, '\n')}}
