@@ -10,7 +10,7 @@
     "test": "jest",
     "cdk": "cdk",
     "cdk:diff": "cdk diff || true",
-    "cdk:deploy": "cdk deploy --require-approval never"
+    "cdk:deploy": "cdk deploy --require-approval never --all"
   },
   "devDependencies": {
     "@aws-cdk/assertions": "1.134.0",
