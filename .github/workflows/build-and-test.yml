@@ -34,3 +34,5 @@ jobs:
           echo "::set-output name=std_out::$diff_out"
       - name: Echo Stdouts
         run: echo "${{ steps.cdk_diff.outputs.std_out }}"
+      - name: Echo other
+        run: echo "{{jobs.cdk_diff.outputs}}""
