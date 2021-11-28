@@ -29,6 +29,18 @@ jobs:
         run: |
           diff_out=$(npm run cdk:diff --ci  &> diff.txt)
           less diff.txt
+      # read from file and assign to outputs object
+      - name: Read and assign
+        id: output_test
+        run: |
+          input_file="diff.txt"
+          while read line
+          do
+            file_text=$line
+          done < "$input_file"
+          echo ::set-output name=new_value::$file_text
+          # test to see if done correctly - should echo "value"
+          echo ${​​​​{​​​​​​​​​​​ steps.output_test.outputs.new_value }​​​​​​​​​​​}
       - name: Create comment
         if: steps.fc.outputs.comment-id == ''
         uses: peter-evans/create-or-update-comment@v1
@@ -43,5 +55,5 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            less diff.txt
+            echo ${​​​​{​​​​​​​​​​​ steps.output_test.outputs.new_value }​​​​​​​​​​​}
           reactions: rocket
